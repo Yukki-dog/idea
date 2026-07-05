@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Art Generator Pro</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
+
+body {
+
+    margin: 0;
+
+    font-family: Inter, sans-serif;
+
+    background: linear-gradient(135deg, #0f0f0f, #1c1c2b);
+
+    color: white;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    min-height: 100vh;
+
+}
+
+h1 {
+
+    margin-top: 25px;
+
+    font-size: 22px;
+
+    opacity: 0.9;
+
+}
+
+.container {
+
+    width: 90%;
+
+    max-width: 420px;
+
+    margin-top: 20px;
+
+}
+
+.card {
+
+    background: rgba(255,255,255,0.06);
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    margin-bottom: 10px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    transition: 0.2s;
+
+}
+
+.card:hover {
+
+    transform: scale(1.02);
+
+}
+
+.label {
+
+    font-size: 12px;
+
+    opacity: 0.6;
+
+}
+
+.value {
+
+    font-size: 15px;
+
+    margin-top: 2px;
+
+}
+
+.left {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+button {
+
+    padding: 6px 10px;
+
+    font-size: 12px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #6c5ce7;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+button:hover {
+
+    transform: scale(1.05);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🎲 Art Generator Pro</h1>
+
+<div class="container">
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">ТЕЛО</div>
+
+        <div class="value" id="body">—</div>
+
+    </div>
+
+    <button onclick="roll('body')">🎲</button>
+
+</div>
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">ВОЛОСЫ</div>
+
+        <div class="value" id="hair">—</div>
+
+    </div>
+
+    <button onclick="roll('hair')">🎲</button>
+
+</div>
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">ГЛАЗА</div>
+
+        <div class="value" id="eyes">—</div>
+
+    </div>
+
+    <button onclick="roll('eyes')">🎲</button>
+
+</div>
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">ЛИЦО</div>
+
+        <div class="value" id="face">—</div>
+
+    </div>
+
+    <button onclick="roll('face')">🎲</button>
+
+</div>
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">ВОЗРАСТ</div>
+
+        <div class="value" id="age">—</div>
+
+    </div>
+
+    <button onclick="roll('age')">🎲</button>
+
+</div>
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">СВЕТ</div>
+
+        <div class="value" id="light">—</div>
+
+    </div>
+
+    <button onclick="roll('light')">🎲</button>
+
+</div>
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">ПОЗА</div>
+
+        <div class="value" id="pose">—</div>
+
+    </div>
+
+    <button onclick="roll('pose')">🎲</button>
+
+</div>
+
+<div class="card">
+
+    <div class="left">
+
+        <div class="label">ДОП</div>
+
+        <div class="value" id="extra">—</div>
+
+    </div>
+
+    <button onclick="roll('extra')">🎲</button>
+
+</div>
+
+</div>
+
+<script>
+
+const data = {
+
+    body: ["худой","спортивный","полноватый","высокий","низкий","длинные ноги","короткие ноги"],
+
+    hair: ["мокрые","седые","разноцветные пряди","полностью лысый","прямые","кудрявые"],
+
+    eyes: ["разные цвета","обычные","очень светлые","очень тёмные","прищур"],
+
+    face: ["круглое","овальное","угловатое","мягкие черты","выраженные скулы"],
+
+    light: ["свеча","фонарь","закат","луна","экран телефона","свет снизу","свет сзади","боковой свет"],
+
+    pose: ["стоит","сидит","идёт","опирается на стену","оглядывается","сидит на полу","держит предмет","смотрит в сторону"],
+
+    extra: ["дождь","отражение в воде","зеркало","мокрые волосы","ветер","пустой фон","один предмет в руках"]
+
+};
+
+function rand(arr){
+
+    return arr[Math.floor(Math.random()*arr.length)];
+
+}
+
+function randAge(){
+
+    let groups = [[3,10],[13,19],[30,50],[60,80]];
+
+    let g = rand(groups);
+
+    return Math.floor(Math.random()*(g[1]-g[0]+1))+g[0];
+
+}
+
+function roll(type){
+
+    let value;
+
+    if(type === "age"){
+
+        value = randAge();
+
+    } else {
+
+        value = rand(data[type]);
+
+    }
+
+    document.getElementById(type).innerText = value;
+
+}
+
+</script>
+
+</body>
+
+</html>
